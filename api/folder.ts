@@ -130,6 +130,5 @@ export const AuthFolderLinks = async (folderId?: string) => {
   const folderIdParam = folderId ? `$folderId=${folderId}` : "";
   const requestUrl = getUrl(`/api/links?${folderIdParam}`);
   const response = await instance.get(requestUrl.toString());
-  const result = await response.data;
-  return result;
+  return response.data;
 };

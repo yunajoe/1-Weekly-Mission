@@ -9,7 +9,7 @@ import google from "@/public/images/google.png";
 import kakao from "@/public/images/kakao.png";
 import { useRouter } from "next/router";
 import { FormValues, PASSWORD, FORMVALUEOBJECT } from "@/types/hookFormTypes";
-import { SignUp } from "@/api/Auth/signup";
+import instance from "@/utils/interceptors";
 
 export default function SingUpPage() {
   const methods = useForm();
@@ -52,27 +52,20 @@ export default function SingUpPage() {
     );
   };
 
-  const aaa = async () => {
-    const response = await SignUp({
-      email: "blue@gmail.com",
-      password: "12345678",
-    });
-    return response;
-  };
-  // email: watchEmail,
-  // password: watchPassword,
-  // repassword: watchRePassword,
+  useEffect(() => {});
   const onSubmit = async () => {
-    if (!watchEmail || !watchPassword) {
-      return;
-    }
-    const response = await SignUp({
-      email: watchEmail,
-      password: watchPassword,
+    const response = await fetch("https://bootcamp-api.codeit.kr/api/sign-up", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "*/*",
+      },
+      body: JSON.stringify({
+        email: watchEmail,
+        password: watchPassword,
+        repassword: watchRePassword,
+      }),
     });
-
-    return response;
-
     if (response.status === 200) {
       if (localStorage.getItem("myToken")) {
         router.push("/folder");

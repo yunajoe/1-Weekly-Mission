@@ -27,6 +27,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-query": "^1.2.9",
     "css-loader": "^6.8.1",
     "eslint": "^8",
     "eslint-config-next": "13.5.6",
