@@ -50,4 +50,6 @@ export type InputProps = {
   onClick?: MouseEventHandler<HTMLDivElement>;
   isEyeShow?: boolean;
   isReEyeShow?: boolean;
+  watchPassword?: string;
+  watchRePassword?: string;
 };

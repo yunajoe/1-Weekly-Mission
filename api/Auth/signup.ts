@@ -1,4 +1,5 @@
 import instance from "@/utils/interceptors";
+
 export interface SignUp {
   email: string;
   password: string;

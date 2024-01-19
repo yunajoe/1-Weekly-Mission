@@ -44,11 +44,16 @@
   align-items: center;
   color: var(--black, #000);
   font-weight: 900;
-
   padding: 0.5rem 1rem;
 }
 
 .social__login__images {
   display: flex;
   column-gap: 0.8rem;
+}
+
+/* repassword */
+
+.repassword__errors {
+  border: 1px solid red;
 }

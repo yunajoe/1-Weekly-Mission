@@ -99,6 +99,10 @@ export default function HeaderModal({
               </li>
             );
           })}
+          {/* onClick={handleCreateLink */}
+          {/* <button className={styles.button} onClick={() => handleCreateLink()}>
+            추가하기
+          </button> */}
           <button className={styles.button} onClick={() => handleCreateLink()}>
             추가하기
           </button>

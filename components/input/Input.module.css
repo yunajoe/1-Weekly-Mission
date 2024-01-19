@@ -7,7 +7,6 @@
 .input {
   border-radius: 8px;
   padding: 18px 15px;
-
   width: 32rem;
   border: 1px solid var(--linkbrary-gray-20, #ccd5e3);
   background: var(--linkbrary-white, #fff);
@@ -16,6 +15,9 @@
 .input:focus {
   outline: none;
   border: 1px solid var(--linkbrary-primary-color, #6d6afe);
+}
+.input.error {
+  border: 1px solid red;
 }
 
 .label {

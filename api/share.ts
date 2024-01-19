@@ -156,8 +156,6 @@ export const getAuthSharedLinksData = async ({
   }
 };
 
-// data: {error: message} => 401엘어
-// https://bootcamp-api.codeit.kr/docs 에서 인증이 필요한(자물쇠 아이콘이 있음) api의 경우 Authorization 리퀘스트 헤더에 “Bearer {accessToken}”을 함께 보내야 합니다.
 export const getCurrentUser = async () => {
   const requestUrl = getUrl(`api/users`);
   const response = await instance.get(requestUrl.toString());

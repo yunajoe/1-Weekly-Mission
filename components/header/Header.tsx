@@ -3,7 +3,11 @@ import HeaderButton from "../button/HeaderButton";
 import { FolderContentsProps } from "@/api/share";
 import Folder from "../folder/Folder";
 
-export default function Header({ data }: { data?: FolderContentsProps }) {
+interface HeaderProps {
+  data?: FolderContentsProps;
+}
+
+export default function Header({ data }: HeaderProps) {
   if (data) {
     return <Folder data={data} />;
   }

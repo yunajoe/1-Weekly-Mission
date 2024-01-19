@@ -4,21 +4,23 @@ import Modal from "@/components/modal/Modal";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FolderMenuBarData } from "@/types/folderMenuBarTypes";
+import { FolderMenuList } from "../foldermenulist/FolderMenuList";
 type TabName = "share" | "change" | "delete" | "deleteLink";
 
-export default function FolderMenuBar({
-  folderIdKey,
-  data,
-}: {
-  folderIdKey: string;
-  data?: FolderMenuBarData;
-}) {
+interface folderMenuBarProps {
+  data?: FolderMenuList[];
+}
+
+export default function FolderMenuBar({ data }: folderMenuBarProps) {
   const [openModal, setOpenModal] = useState(false);
   const [tabName, setTabName] = useState<TabName>("share");
 
   const router = useRouter();
-  const { folderId } = router.query;
-  const folderName = !folderId ? "전체" : data?.[folderIdKey].folderName;
+  const { id } = router.query;
+
+  const folderName = !id
+    ? "전체"
+    : data?.filter((item) => item.id === Number(id))[0]?.name!;
 
   const handleModal = () => {
     setOpenModal(true);

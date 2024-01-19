@@ -1,6 +1,11 @@
 import React from "react";
 import styles from "./Profile.module.css";
-import { UserProfile } from "@/api/folder";
-export default function Profile({ data }: { data: UserProfile[] }) {
-  return <div className={styles.container}>{data[data.length - 1].email}</div>;
+
+import { userProfileProps } from "../nav/FolderNav";
+export default function Profile({ userProfile }: userProfileProps) {
+  return (
+    <div className={styles.container}>
+      {userProfile[userProfile.length - 1].email}
+    </div>
+  );
 }

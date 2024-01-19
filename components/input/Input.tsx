@@ -26,6 +26,8 @@ export default function Input({
         placeholder={placeholder}
         className={clsx({
           [styles.input]: true,
+          [styles.error]:
+            Object.keys(errors).length > 0 && Object.keys(errors)[0] === name,
         })}
         {...register(name, { ...props })}
       />
@@ -59,6 +61,14 @@ export default function Input({
           ))
         }
       />
+      {/* 
+      <div>
+        {props.watchRePassword &&
+          props.watchRePassword.length > 0 &&
+          props.watchPassword !== props.watchRePassword && (
+            <p className={styles.repassword__errors}>비밀번호가 맞지않습니다</p>
+          )}
+      </div> */}
     </div>
   );
 }

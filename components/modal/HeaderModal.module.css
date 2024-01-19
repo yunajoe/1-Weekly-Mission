@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* 모달에 흐림 효과는 #000000 색상에 opacity 0.4로 설정 */
+
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
@@ -23,6 +23,8 @@
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   border-radius: 15px;
+  overflow-y: auto;
+  height: 20rem;
 }
 
 .cancel__button {
@@ -38,20 +40,29 @@
 }
 .button {
   border: none;
+  color: var(--Grey-Light, #f5f5f5);
   width: 90%;
   height: 30px;
   border-radius: 5px;
   background: linear-gradient(91deg, #6d6afe 0.12%, #6ae3fe 101.84%);
+  padding-top: 1rem;
 }
 
+.links__wrapper {
+  display: flex;
+  column-gap: 0.7rem;
+}
+
+.folder_link_name {
+  color: var(--Linkbrary-primary-color, #6d6afe);
+}
 .links {
   width: 80%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  justify-content: space-between;
 }
 .links:hover {
   background-color: var(--background);

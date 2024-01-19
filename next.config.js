@@ -34,6 +34,8 @@ const nextConfig = {
       "testing-library.com",
       "static.cdninstagram.com",
       "ca.slack-edge.com",
+      "cdn.paris.spl.li",
+      "image.istarbucks.co.kr",
     ],
   },
 };

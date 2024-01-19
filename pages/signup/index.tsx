@@ -9,7 +9,9 @@ import google from "@/public/images/google.png";
 import kakao from "@/public/images/kakao.png";
 import { useRouter } from "next/router";
 import { FormValues, PASSWORD, FORMVALUEOBJECT } from "@/types/hookFormTypes";
-import { SignUp } from "@/api/Auth/signup";
+import { SignUp } from "@/api/auth/signup";
+import { useMutation } from "react-query";
+import { CheckEmail } from "@/api/user/checkEmail";
 
 export default function SingUpPage() {
   const methods = useForm();
@@ -17,7 +19,8 @@ export default function SingUpPage() {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitSuccessful },
+    reset,
+    formState: { errors },
   } = useForm<FormValues>({
     mode: "all",
     criteriaMode: "all",
@@ -52,53 +55,46 @@ export default function SingUpPage() {
     );
   };
 
-  const aaa = async () => {
-    const response = await SignUp({
-      email: "blue@gmail.com",
-      password: "12345678",
-    });
-    return response;
-  };
-  // email: watchEmail,
-  // password: watchPassword,
-  // repassword: watchRePassword,
+  const signupMutation = useMutation({
+    mutationKey: ["signup"],
+    mutationFn: (data: SignUp) => SignUp(data),
+  });
   const onSubmit = async () => {
-    if (!watchEmail || !watchPassword) {
+    if (!watchEmail || !watchPassword || !watchRePassword) {
+      alert("빈값이 있으면 안됩니다");
       return;
     }
-    const response = await SignUp({
-      email: watchEmail,
-      password: watchPassword,
-    });
-
-    return response;
-
-    if (response.status === 200) {
-      if (localStorage.getItem("myToken")) {
-        router.push("/folder");
-      } else {
-        const jsonData = await response.json();
-        const myToken = jsonData.data?.accessToken;
-        localStorage.setItem("myToken", JSON.stringify(myToken));
-        alert("회원가입이되었습니다");
-      }
-    } else if (response.status === 400) {
-      const response = await fetch(
-        "https://bootcamp-api.codeit.kr/api/check-email",
-        {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-            accept: "*/*",
-          },
-          body: JSON.stringify({
-            email: watchEmail,
-          }),
-        }
-      );
-      const jsonData = await response.json();
-      alert(jsonData.error.message);
+    try {
+      await CheckEmail({
+        email: watchEmail,
+      });
+    } catch (error: any) {
+      alert(error.response.data.message);
     }
+    signupMutation.mutate(
+      {
+        email: watchEmail,
+        password: watchPassword,
+      },
+      {
+        onSuccess: (data) => {
+          reset({
+            email: "",
+            password: "",
+            repassword: "",
+          });
+          // {accessToken: 'eyJhbGciOiJIUzI1NiIsImtpZCI6IktLNE05TGFmMXkzWEI0M0…DkifQ.3jx9HxE-5DKaIBop5_y1lnpQdA0Ro43Lf5HvbOi6wWY', refreshToken: '-VgC4J5tMBRREW0twVlVvw'}
+          const myAccessToken = data.accessToken;
+          const myRefreshToken = data.refreshToken;
+          localStorage.setItem("myAccessToken", myAccessToken);
+          // localStorage.setItem(
+          //   "myRefreshToken",
+          //   JSON.stringify(myRefreshToken)
+          // );
+          router.push("/folder");
+        },
+      }
+    );
   };
 
   return (
@@ -113,7 +109,6 @@ export default function SingUpPage() {
             </Link>
           </div>
         </div>
-
         <form
           className={styles.form__container}
           onSubmit={handleSubmit(onSubmit)}
@@ -146,6 +141,7 @@ export default function SingUpPage() {
             }}
             isEyeShow={isEyeShow}
             onClick={handlePassWordClick}
+            watchPassword={watchPassword}
           />
           <Input
             type={repasswordType}
@@ -157,25 +153,28 @@ export default function SingUpPage() {
             required={{ value: true, message: "비밀번호를 입력해주세요" }}
             isReEyeShow={isReEyeShow}
             onClick={handleRePassWordClick}
+            watchRePassword={watchRePassword}
           />
-          {watchRePassword &&
-            watchRePassword.length > 0 &&
-            watchPassword !== watchRePassword && <p>비밀번호가 맞지않습니다</p>}
-
-          <button className={styles.login__button}>회원가입</button>
+          <button className={styles.login__button} type="submit">
+            회원가입
+          </button>
           <div className={styles.social__login}>
             <p>다른방식으로 가입하기</p>
             <div className={styles.social__login__images}>
               <Link href="https://www.google.com">
                 <Image src={google} alt="google" />
               </Link>
-              {/* <Link href="https://www.kakaocorp.com/page">
-                <Image src={kakao} alt="kakao" />
-              </Link> */}
+              <Link href="https://www.kakaocorp.com/page">
+                <Image
+                  src="assets/images.kakao.svg"
+                  alt="kakao"
+                  width={20}
+                  height={20}
+                />
+              </Link>
             </div>
           </div>
         </form>
-        {isSubmitSuccessful && <p>Form이 성공적으로 제출되었습니다</p>}
       </div>
     </FormProvider>
   );

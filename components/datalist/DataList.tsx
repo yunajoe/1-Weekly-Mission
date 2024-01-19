@@ -2,21 +2,20 @@ import React, { useContext } from "react";
 import DataListItem from "./DataListItem";
 import styles from "./DataList.module.css";
 import SearchContext from "../../contexts/SearchContext";
-import { Folder } from "@/types/folderMenuListTypes";
-export type Data = Folder[] | [] | undefined;
+import { getLinks } from "@/api/link/getLinks";
 
 type DataListProps = {
-  folderIdKey: string | undefined;
-  data: Data;
+  folderIdKey?: string;
+  linkList: getLinks[];
 };
 
-export default function DataList({ folderIdKey, data }: DataListProps) {
+export default function DataList({ folderIdKey, linkList }: DataListProps) {
   const { inputValue, handleInputFunc } = useContext(SearchContext);
 
   if (!folderIdKey) {
     return (
       <div className={styles.container}>
-        {data?.map((item) => {
+        {linkList?.map((item) => {
           const { url, title, description } = item;
           if (
             url?.includes(inputValue) ||
@@ -31,7 +30,7 @@ export default function DataList({ folderIdKey, data }: DataListProps) {
 
   return (
     <div className={styles.container}>
-      {data?.map((item) => {
+      {linkList?.map((item) => {
         const { url, title, description } = item;
         if (
           url?.includes(inputValue) ||

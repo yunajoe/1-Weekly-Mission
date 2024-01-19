@@ -9,12 +9,15 @@ import google from "@/public/images/google.png";
 import kakao from "@/public/images/kakao.png";
 import { useRouter } from "next/router";
 import { FormValues } from "@/types/hookFormTypes";
+import { SignIn } from "@/api/auth/signin";
+import { useMutation } from "@tanstack/react-query";
 export default function SingInPage() {
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitSuccessful },
+    reset,
+    formState: { errors },
   } = useForm<FormValues>({
     mode: "onBlur",
     criteriaMode: "all",
@@ -34,32 +37,41 @@ export default function SingInPage() {
     setIsEyeShow(!isEyeShow);
     setType((prev) => (prev === "password" ? "text" : "password"));
   };
+  const signinMutation = useMutation({
+    mutationKey: ["signin"],
+    mutationFn: (data: SignIn) => SignIn(data),
+  });
 
-  const onSubmit: SubmitHandler<FormValues> = async () => {
-    const response = await fetch("https://bootcamp-api.codeit.kr/api/sign-in", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        accept: "*/*",
-      },
-      body: JSON.stringify({
+  const onSubmit = () => {
+    if (!watchEmail || !watchPassword) {
+      alert("빈값이 있으면 안됩니다");
+      return;
+    }
+    signinMutation.mutate(
+      {
         email: watchEmail,
         password: watchPassword,
-      }),
-    });
-    if (response.status === 200) {
-      if (localStorage.getItem("myToken")) {
-        router.push("/folder");
-      } else {
-        const jsonData = await response.json();
-
-        const myToken = jsonData.data?.accessToken;
-        localStorage.setItem("myToken", myToken);
-        router.push("/folder");
+      },
+      {
+        onSuccess: (data) => {
+          const myAccessToken = data.accessToken;
+          const myRefreshToken = data.refreshToken;
+          if (myAccessToken) {
+            localStorage.setItem("myAccessToken", myAccessToken);
+            router.push("/folder");
+          }
+        },
+        onError: (err) => {
+          alert("회원이 아닙니다. 회원가입을 해주세요");
+          reset({
+            email: "",
+            password: "",
+            repassword: "",
+          });
+          return;
+        },
       }
-    } else if (response.status === 400) {
-      alert("유효한 auth가 아닙니다");
-    }
+    );
   };
 
   return (
@@ -115,7 +127,6 @@ export default function SingInPage() {
           </div>
         </div>
       </form>
-      {isSubmitSuccessful && <p>Form이 성공적으로 제출되었습니다</p>}
     </div>
   );
 }

@@ -5,11 +5,10 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(function (config) {
-  const currentToken = localStorage.getItem("myToken")!;
-  if (!currentToken) {
-    window.location.href = "/signin";
+  const currentToken = localStorage.getItem("myAccessToken")!;
+  if (currentToken) {
+    config.headers.Authorization = `Bearer ${currentToken}`;
   }
-  config.headers.Authorization = `Bearer ${currentToken}`;
   return config;
 });
 
