@@ -5,7 +5,6 @@ import Person from "@/public/images/person.svg";
 import Login from "@/public/images/login.svg";
 import styles from "./ShareNav.module.css";
 import Profile from "@/components/profile/Profile";
-import { UserProfile } from "@/api/folder";
 
 export interface userProfileProps {
   userProfile: userProfile[];

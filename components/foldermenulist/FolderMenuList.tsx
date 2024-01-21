@@ -32,7 +32,6 @@ export default function FolderMenuList({
       <div className={styles.sub__container}>
         {folderMenuList?.map((item) => {
           const { id, name } = item;
-
           let isActive = false;
           if (id === Number(folderId)) {
             isActive = true;

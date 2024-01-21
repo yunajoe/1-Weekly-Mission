@@ -6,15 +6,13 @@ import Footer from "@/components/footer/Footer";
 import FolderMenuBar from "@/components/menubar/FolderMenuBar";
 import FolderNav from "@/components/nav/FolderNav";
 import SearchBar from "@/components/searchbar/SearchBar";
-
 import { useRouter } from "next/router";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import FolderPageLayout from "@/layout/FolderPageLayout";
 import { useQuery } from "@tanstack/react-query";
 import { getFolders } from "@/api/folder/getFolder";
 import { getUser } from "@/api/user/getUser";
 import { getLinks } from "@/api/link/getLinks";
-import { getFolderLinks } from "@/api/link/getFolderLinks";
 import FolderPageHeader from "@/components/header/FolderPageHeader";
 
 export default function FolderPages() {
@@ -50,25 +48,9 @@ export default function FolderPages() {
     },
   });
 
+  console.log("");
   const user = AuthUserQuery.data || [];
   const folderMenuList = AuthFolderQuery.data || [];
-
-  // const folderIdList = folderMenuList
-  //   .filter((item) => item.id !== 0)
-  //   .map((item) => item.id);
-
-  // const folderResult = useQueries(
-  //   folderIdList.map((id) => ({
-  //     queryKey: ["folderLink", id],
-  //     queryFn: () => {
-  //       return getFolderLinks(id);
-  //     },
-  //     select: (data) => ({
-  //       [id]: {
-  //         data,
-  //       },
-  //     }),
-  //   }))
 
   const currentFolder = useMemo(() => {
     if (id) {
@@ -99,7 +81,7 @@ export default function FolderPages() {
         <FolderPageHeader />
         <SearchBar />
         <FolderMenuList folderMenuList={folderMenuList} folderId="0" />
-        <FolderMenuBar data={folderMenuList}></FolderMenuBar>
+        <FolderMenuBar data={folderMenuList} />
         <DataList linkList={wholeLinkList} />
         <Footer />
       </FolderPageLayout>

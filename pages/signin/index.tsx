@@ -4,9 +4,8 @@ import Image from "next/image";
 import logo from "@/public/images/logo.png";
 import Link from "next/link";
 import Input from "@/components/input/Input";
-import { useForm, SubmitHandler } from "react-hook-form";
-import google from "@/public/images/google.png";
-import kakao from "@/public/images/kakao.png";
+import { useForm } from "react-hook-form";
+
 import { useRouter } from "next/router";
 import { FormValues } from "@/types/hookFormTypes";
 import { SignIn } from "@/api/auth/signin";
@@ -119,11 +118,21 @@ export default function SingInPage() {
           <p>소설로그인</p>
           <div className={styles.social__login__images}>
             <Link href="https://www.google.com">
-              <Image src={google} alt="google" />
+              <Image
+                src="/images/google-oauth.png"
+                alt="google"
+                width={40}
+                height={40}
+              />
             </Link>
-            {/* <Link href="https://www.kakaocorp.com/page">
-              <Image src={kakao} alt="kakao" />
-            </Link> */}
+            <Link href="https://www.kakao.com">
+              <Image
+                src="/images/kakao-oauth.png"
+                alt="kakao"
+                width={40}
+                height={40}
+              />
+            </Link>
           </div>
         </div>
       </form>

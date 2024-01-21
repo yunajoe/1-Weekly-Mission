@@ -22,7 +22,9 @@ export default function DataList({ folderIdKey, linkList }: DataListProps) {
             title?.includes(inputValue) ||
             description?.includes(inputValue)
           )
-            return <DataListItem key={item.id} item={item} />;
+            return (
+              <DataListItem key={item.id} item={item} linkList={linkList} />
+            );
         })}
       </div>
     );
@@ -37,7 +39,7 @@ export default function DataList({ folderIdKey, linkList }: DataListProps) {
           title?.includes(inputValue) ||
           description?.includes(inputValue)
         )
-          return <DataListItem key={item.id} item={item} />;
+          return <DataListItem key={item.id} item={item} linkList={linkList} />;
       })}
     </div>
   );

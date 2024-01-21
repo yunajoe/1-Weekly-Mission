@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styles from "./FolderPageHeader.module.css";
 import LinkImage from "@/public/images/link.svg";
 import { useState } from "react";
@@ -6,10 +6,6 @@ import HeaderModal from "../modal/HeaderModal";
 import useObserver from "@/hooks/useObserver";
 import FooterContext from "@/contexts/FooterContext";
 import HeaderContext from "@/contexts/HeaderContext";
-
-interface folderMenuListProps {
-  folderMenuList: folderMenuList[];
-}
 
 export interface folderMenuList {
   id: number;
@@ -22,15 +18,13 @@ export interface folderMenuList {
 export default function FolderPageHeader() {
   const [openModal, setOpenModal] = useState(false);
   const [inputText, setInputText] = useState("");
-  const handleModal = () => {
+  const handleOpenModal = () => {
     setOpenModal(true);
   };
 
-  console.log(openModal);
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
-
   const { ref, isVisible } = useObserver();
   const { isHeaderVisible, setIsHeaderVisible } = useContext(HeaderContext);
   const { isFooterVisible, setIsFooterVisible } = useContext(FooterContext);
@@ -51,11 +45,15 @@ export default function FolderPageHeader() {
               onChange={handleInput}
             />
           </div>
-          <button className={styles.add__button} onClick={handleModal}>
+          <button className={styles.add__button} onClick={handleOpenModal}>
             추가하기
           </button>
           {openModal && (
-            <HeaderModal setterFunc={setOpenModal} inputLink={inputText} />
+            <HeaderModal
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              inputLink={inputText}
+            />
           )}
         </div>
       </div>
@@ -77,11 +75,15 @@ export default function FolderPageHeader() {
               onChange={handleInput}
             />
           </div>
-          <button className={styles.add__button} onClick={handleModal}>
+          <button className={styles.add__button} onClick={handleOpenModal}>
             추가하기
           </button>
           {openModal && (
-            <HeaderModal setterFunc={setOpenModal} inputLink={inputText} />
+            <HeaderModal
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              inputLink={inputText}
+            />
           )}
         </div>
       </div>

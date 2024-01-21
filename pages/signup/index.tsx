@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./SignUp.module.css";
 import Image from "next/image";
 import logo from "@/public/images/logo.png";
 import Link from "next/link";
 import Input from "@/components/input/Input";
 import { useForm, FormProvider } from "react-hook-form";
-import google from "@/public/images/google.png";
-import kakao from "@/public/images/kakao.png";
 import { useRouter } from "next/router";
 import { FormValues, PASSWORD, FORMVALUEOBJECT } from "@/types/hookFormTypes";
 import { SignUp } from "@/api/auth/signup";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { CheckEmail } from "@/api/user/checkEmail";
 
 export default function SingUpPage() {
@@ -83,14 +81,10 @@ export default function SingUpPage() {
             password: "",
             repassword: "",
           });
-          // {accessToken: 'eyJhbGciOiJIUzI1NiIsImtpZCI6IktLNE05TGFmMXkzWEI0M0…DkifQ.3jx9HxE-5DKaIBop5_y1lnpQdA0Ro43Lf5HvbOi6wWY', refreshToken: '-VgC4J5tMBRREW0twVlVvw'}
           const myAccessToken = data.accessToken;
           const myRefreshToken = data.refreshToken;
           localStorage.setItem("myAccessToken", myAccessToken);
-          // localStorage.setItem(
-          //   "myRefreshToken",
-          //   JSON.stringify(myRefreshToken)
-          // );
+
           router.push("/folder");
         },
       }
@@ -162,14 +156,19 @@ export default function SingUpPage() {
             <p>다른방식으로 가입하기</p>
             <div className={styles.social__login__images}>
               <Link href="https://www.google.com">
-                <Image src={google} alt="google" />
-              </Link>
-              <Link href="https://www.kakaocorp.com/page">
                 <Image
-                  src="assets/images.kakao.svg"
+                  src="/images/google-oauth.png"
+                  alt="google"
+                  width={40}
+                  height={40}
+                />
+              </Link>
+              <Link href="https://www.kakao.com">
+                <Image
+                  src="/images/kakao-oauth.png"
                   alt="kakao"
-                  width={20}
-                  height={20}
+                  width={40}
+                  height={40}
                 />
               </Link>
             </div>

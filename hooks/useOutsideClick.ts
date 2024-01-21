@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 
 interface useOutsideClickType {
-  ref: any;
+  ref: React.RefObject<HTMLElement>;
   callback: () => void;
 }
 

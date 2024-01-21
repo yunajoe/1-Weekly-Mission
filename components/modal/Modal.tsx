@@ -12,12 +12,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { putFolder } from "@/api/folder/putFolder";
 import { postFolder } from "@/api/folder/postFolder";
 import { deleteFolder } from "@/api/folder/deleteFolder";
+import { getLinks } from "@/api/link/getLinks";
+import { deleteLink } from "@/api/link/deleteLink";
 type TabName = "add" | "share" | "change" | "delete" | "deleteLink";
 
 type ModalProps = {
   setterFunc: (value: boolean) => void;
   tabName: TabName;
   folderName?: string;
+  linkList: getLinks[];
   linkUrl?: string;
 };
 
@@ -25,6 +28,7 @@ export default function Modal({
   setterFunc,
   tabName,
   folderName,
+  linkList,
   linkUrl = "",
 }: ModalProps) {
   const obj = {
@@ -146,12 +150,30 @@ export default function Modal({
     });
   };
 
+  const deleteLinkMutation = useMutation({
+    mutationKey: ["deleteLink"],
+    mutationFn: (linkId: number) => deleteLink(linkId),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["FolderLink", Number(id)] });
+    },
+  });
+
+  const handleDeleteLink = (linkId: number) => {
+    deleteLinkMutation.mutate(linkId, {
+      onSuccess: () => {
+        setterFunc(false);
+      },
+    });
+  };
   const callbackFunObj: Record<TabName, () => void> = {
     add: handleCreateFolder,
     share: () => console.log("ddd"),
     change: handleEditFolder,
     delete: () => handleDeleteFolder(Number(id)),
-    deleteLink: () => console.log("ddd"),
+    deleteLink: () => {
+      const targetLink = linkList.find((link) => link.url === linkUrl)!;
+      handleDeleteLink(targetLink.id);
+    },
   };
 
   return (
