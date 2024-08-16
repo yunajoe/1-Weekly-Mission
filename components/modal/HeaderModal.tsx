@@ -9,13 +9,13 @@ import { FolderMenu } from "@/types/headerModalTypes";
 import useOutsideClick from "@/hooks/useOutsideClick";
 
 type HeaderModalProps = {
-  openModal: any;
+  // openModal: any;
   setOpenModal: React.Dispatch<SetStateAction<boolean>>;
   inputLink: string;
 };
 
 export default function HeaderModal({
-  openModal,
+  // openModal,
   setOpenModal,
   inputLink,
 }: HeaderModalProps) {
@@ -37,12 +37,12 @@ export default function HeaderModal({
 
   const modalRef = useRef(null);
 
-  useOutsideClick({
-    ref: modalRef,
-    callback: () => setOpenModal(false),
-  });
+  // useOutsideClick({
+  //   ref: modalRef,
+  //   callback: () => setOpenModal(false),
+  // });
 
-  console.log("status ", openModal);
+  // console.log("status ", openModal);
   const createLinkMutation = useMutation({
     mutationKey: ["postLink"],
     mutationFn: (data: postLink) => postLink(data),

@@ -20,7 +20,7 @@ type ModalProps = {
   setterFunc: (value: boolean) => void;
   tabName: TabName;
   folderName?: string;
-  linkList: getLinks[];
+  linkList?: getLinks[];
   linkUrl?: string;
 };
 
@@ -165,6 +165,7 @@ export default function Modal({
       },
     });
   };
+
   const callbackFunObj: Record<TabName, () => void> = {
     add: handleCreateFolder,
     share: () => console.log("ddd"),

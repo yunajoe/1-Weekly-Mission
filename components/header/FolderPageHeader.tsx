@@ -50,7 +50,7 @@ export default function FolderPageHeader() {
           </button>
           {openModal && (
             <HeaderModal
-              openModal={openModal}
+              // openModal={openModal}
               setOpenModal={setOpenModal}
               inputLink={inputText}
             />
@@ -80,7 +80,7 @@ export default function FolderPageHeader() {
           </button>
           {openModal && (
             <HeaderModal
-              openModal={openModal}
+              // openModal={openModal}
               setOpenModal={setOpenModal}
               inputLink={inputText}
             />

@@ -1,5 +1,12 @@
 /* 전체 메뉴의 이미지 없는것만 가운데로 정렬이 안됨 ㅎ */
-
+.star {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 3.4rem;
+  height: 3.4rem;
+  z-index: 2;
+}
 .container {
   position: relative;
   display: flex;

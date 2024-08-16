@@ -11,6 +11,7 @@ export default function useOutsideClick({
 }: useOutsideClickType) {
   const handleClick = (event: Event) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
+      event.preventDefault();
       callback();
     }
   };
@@ -19,5 +20,5 @@ export default function useOutsideClick({
     return () => {
       document.removeEventListener("click", handleClick);
     };
-  });
+  }, []);
 }
