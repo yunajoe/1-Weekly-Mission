@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./DataListItem.module.css";
-import Card from "@/components/card/Card";
-import { getElapsedTime, parseDatestring } from "@/utils/caltime";
-import Kebab from "@/public/images/kebab.png";
-import DropDown from "../dropdown/DropDown";
-import Image from "next/image";
 import { getLinks } from "@/api/link/getLinks";
-import Link from "next/link";
-import { useMutation } from "@tanstack/react-query";
 import { putLink } from "@/api/link/putLinks";
+import Card from "@/components/card/Card";
+import Kebab from "@/public/images/kebab.png";
+import { getElapsedTime, parseDatestring } from "@/utils/caltime";
+import { useMutation } from "@tanstack/react-query";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import DropDown from "../dropdown/DropDown";
+import styles from "./DataListItem.module.css";
 
 interface DataListItemProps {
   item: getLinks;
@@ -40,8 +40,6 @@ export default function DataListItem({ item, linkList }: DataListItemProps) {
   };
 
   const handleChangeLinktoFavorite = () => {
-    console.log("clicked?", isStarClick, targetUrl);
-
     if (isStarClick && item.url === targetUrl) {
       const targetItem = linkList.find((item) => item.url === targetUrl)!;
       changeLinktoFavoriteMutation.mutate({
@@ -65,9 +63,6 @@ export default function DataListItem({ item, linkList }: DataListItemProps) {
     handleChangeLinktoFavorite();
   }, [isStarClick]);
 
-  // console.log("targetUrl", item, targetUrl);
-  // const aa = linkList.find((item) => item.url === targetUrl);
-  // console.log("aa", aa);
   return (
     <>
       <Card>

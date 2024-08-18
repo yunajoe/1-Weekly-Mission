@@ -96,7 +96,9 @@ export default function SingUpPage() {
     <FormProvider {...methods}>
       <div className={styles.container}>
         <div className={styles.link__container}>
-          <Image src={logo} alt="logo" />
+          <div>
+            <Image src={logo} alt="logo" />
+          </div>
           <div className={styles.link__container__text}>
             <p>이미 회원이신가요?</p>
             <Link href="/signin" className={styles.link__container__link}>

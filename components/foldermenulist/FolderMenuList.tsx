@@ -1,8 +1,10 @@
+import CreateModal from "@/components/modal/CreateModal";
+import useModalMutation from "@/hooks/useModalMutation";
 import Plus from "@/public/images/plus.svg";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Button from "../button/Button";
-import Modal from "../modal/Modal";
 import styles from "./FolderMenuList.module.css";
 export interface FolderMenuListProps {
   folderMenuList: FolderMenuList[];
@@ -22,10 +24,34 @@ export default function FolderMenuList({
   folderId,
 }: FolderMenuListProps) {
   const router = useRouter();
-  const [openModal, setOpenModal] = useState(false);
+
+  const [createFolderName, setCreateFolderName] = useState("");
+  const [openCreateModal, setOpenCreateModal] = useState("");
+  const { createFolderMutation } = useModalMutation();
+  const queryClient = useQueryClient();
 
   const handleModal = () => {
-    setOpenModal(true);
+    setOpenCreateModal("add");
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCreateFolderName(e.target.value);
+  };
+
+  const handleCreateFolder = () => {
+    createFolderMutation.mutate(
+      {
+        data: {
+          name: createFolderName,
+        },
+      },
+      {
+        onSuccess: () => {
+          setOpenCreateModal("");
+          setCreateFolderName("");
+          queryClient.invalidateQueries({ queryKey: ["authFolderList"] });
+        },
+      }
+    );
   };
   return (
     <div className={styles.container}>
@@ -59,7 +85,15 @@ export default function FolderMenuList({
           <Plus />
         </div>
       </div>
-      {openModal && <Modal setterFunc={setOpenModal} tabName="add" />}
+      {openCreateModal && (
+        <CreateModal
+          tabName="add"
+          setTabName={setOpenCreateModal}
+          createFolderName={createFolderName}
+          handleChange={handleChange}
+          onClick={handleCreateFolder}
+        />
+      )}
     </div>
   );
 }

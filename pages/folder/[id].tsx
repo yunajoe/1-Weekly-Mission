@@ -7,43 +7,16 @@ import SearchBar from "@/components/searchbar/SearchBar";
 import FolderPageLayout from "@/layout/FolderPageLayout";
 import { useRouter } from "next/router";
 
-import { getFolders } from "@/api/folder/getFolder";
-import { getFolderLinks } from "@/api/link/getFolderLinks";
-import { getUser } from "@/api/user/getUser";
 import FolderMenuBar from "@/components/menubar/FolderMenuBar";
-import { useQuery } from "@tanstack/react-query";
+import useCustomQuery from "@/hooks/useCustomQuery";
 
 export default function FolderItem() {
   const router = useRouter();
   const { id } = router.query;
   const folderId = id as string;
 
-  const AuthUserQuery = useQuery({
-    queryKey: ["authUser"],
-    queryFn: () => getUser(),
-  });
-  const AuthGetLink = useQuery({
-    queryKey: ["FolderLink", folderId],
-    queryFn: () => getFolderLinks(folderId),
-    enabled: !!AuthUserQuery,
-  });
-  const wholeLinkList = AuthGetLink.data || [];
-  const AuthFolderQuery = useQuery({
-    queryKey: ["authFolderList"],
-    queryFn: () => getFolders(),
-    enabled: !!AuthUserQuery && !!wholeLinkList,
-    select: (data) => {
-      return [
-        {
-          id: 0,
-          name: "전체",
-          link_count: wholeLinkList.length,
-          favorite: false,
-        },
-        ...data,
-      ];
-    },
-  });
+  const { AuthUserQuery, AuthGetLink, wholeLinkList, AuthFolderQuery } =
+    useCustomQuery(folderId);
 
   if (AuthUserQuery.isError) return <p> Error...</p>;
 

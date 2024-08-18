@@ -77,7 +77,9 @@ export default function SingInPage() {
   return (
     <div className={styles.container}>
       <div className={styles.link__container}>
-        <Image src={logo} alt="logo" />
+        <div>
+          <Image src={logo} alt="logo" />
+        </div>
         <div className={styles.link__container__text}>
           <p>회원이 아니신가요?</p>
           <Link href="/signup" className={styles.link__container__link}>

@@ -1,4 +1,3 @@
-//https://bootcamp-api.codeit.kr/api/linkbrary/v1/folders
 import instance from "@/utils/interceptors";
 
 export const getFolders = async () => {

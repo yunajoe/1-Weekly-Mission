@@ -1,6 +1,4 @@
-import { Html, Head, Main, NextScript } from "next/document";
-// 아래꺼는 왜 안되쥬
-import Script from "next/script";
+import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (

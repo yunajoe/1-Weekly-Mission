@@ -1,13 +1,14 @@
+import { FolderMenuList } from "@/components/foldermenulist/FolderMenuList";
 import ChangeModal from "@/components/modal/ChangeModal";
 import DeleteModal from "@/components/modal/DeleteModal";
+import ShareModal from "@/components/modal/ShareModal";
+import useCustomQuery from "@/hooks/useCustomQuery";
 import useModalMutation from "@/hooks/useModalMutation";
-import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { FolderMenuList } from "../foldermenulist/FolderMenuList";
 import styles from "./FolderMenu.module.css";
-type TabName = "add" | "change" | "delete" | "deleteLink";
+type TabName = "change" | "delete" | "deleteLink";
 
 interface folderMenuBarProps {
   data?: FolderMenuList[];
@@ -19,8 +20,9 @@ export default function FolderMenuBar({ data }: folderMenuBarProps) {
 
   const router = useRouter();
   const { id } = router.query;
-  const queryClient = useQueryClient();
-
+  const folderId = id as string;
+  const { AuthUserQuery, AuthGetLink, wholeLinkList, AuthFolderQuery } =
+    useCustomQuery(folderId);
   const folderName = !id
     ? "전체"
     : data?.filter((item) => item.id === Number(id))[0]?.name!;
@@ -55,6 +57,8 @@ export default function FolderMenuBar({ data }: folderMenuBarProps) {
       {
         onSuccess: () => {
           setTabName("");
+          setChangeFolderName("");
+          AuthUserQuery.refetch();
         },
       }
     );
@@ -65,6 +69,7 @@ export default function FolderMenuBar({ data }: folderMenuBarProps) {
       <p className={styles.title}>{folderName}</p>
       <div className={styles.images__container}>
         <div
+          className={styles.tab_button}
           onClick={(e) => {
             handleTab(e);
           }}
@@ -110,6 +115,14 @@ export default function FolderMenuBar({ data }: folderMenuBarProps) {
           tabName={tabName}
           setTabName={setTabName}
           onClick={() => handleDeleteFolder(Number(id))}
+        />
+      )}
+      {tabName === "share" && (
+        <ShareModal
+          folderId={folderId}
+          folderName={folderName}
+          tabName={tabName}
+          setTabName={setTabName}
         />
       )}
     </div>
