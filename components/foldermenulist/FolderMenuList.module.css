@@ -26,13 +26,6 @@
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(4, 1fr);
 
-  @media (min-width: 768px) {
-  }
-  /* table2 */
-  @media (min-width: 1124px) {
-    /* 1125~ 1119 */
-  }
-
   /* descktop*/
   @media (min-width: 1200px) {
     grid-template-areas: "whole favorite useful myplace new hire test ";
@@ -40,29 +33,17 @@
 }
 
 .add__folder__button {
-  position: static;
-  transform: translate(0);
-
-  @media (max-width: 1199px) {
-    position: static;
-    transform: translate(0);
-  }
-
-  @media (max-width: 1123px) {
-    position: static;
-    transform: translate(0);
-  }
-  @media (max-width: 768px) {
-    position: fixed;
-
-    left: 50%;
-    bottom: 20rem;
-    z-index: 1;
-    transform: translate(-50%, -50%);
-  }
+  position: relative;
+  width: 150px;
 }
 
-.sub__container button:nth-child(1) {
+.plus_icon {
+  position: absolute;
+  top: 16px;
+  right: 22px;
+}
+
+/* .sub__container button:nth-child(1) {
   grid-area: "whole";
 }
 
@@ -88,4 +69,4 @@
 
 .sub__container button:nth-child(7) {
   grid-area: "test";
-}
+} */

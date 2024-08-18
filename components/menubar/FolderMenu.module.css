@@ -41,3 +41,7 @@
   display: flex;
   column-gap: 1rem;
 }
+
+.tab_button {
+  cursor: pointer;
+}

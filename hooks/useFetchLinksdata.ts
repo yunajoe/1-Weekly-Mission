@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
 import { UserFolder } from "@/api/folder";
 import { MappedDataProps } from "@/types/mappedFolderTypes";
+import { useEffect, useState } from "react";
 
 function useFetchLinksData(fetchFunc: Function, targetArr: UserFolder[]) {
   const [data, setData] = useState<any>([]);

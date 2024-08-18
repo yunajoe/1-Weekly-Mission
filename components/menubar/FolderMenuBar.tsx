@@ -1,34 +1,63 @@
-import React, { useState } from "react";
-import styles from "./FolderMenu.module.css";
-import Modal from "@/components/modal/Modal";
+import ChangeModal from "@/components/modal/ChangeModal";
+import DeleteModal from "@/components/modal/DeleteModal";
+import useModalMutation from "@/hooks/useModalMutation";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FolderMenuBarData } from "@/types/folderMenuBarTypes";
+import React, { useState } from "react";
 import { FolderMenuList } from "../foldermenulist/FolderMenuList";
-type TabName = "share" | "change" | "delete" | "deleteLink";
+import styles from "./FolderMenu.module.css";
+type TabName = "add" | "change" | "delete" | "deleteLink";
 
 interface folderMenuBarProps {
   data?: FolderMenuList[];
 }
 
 export default function FolderMenuBar({ data }: folderMenuBarProps) {
-  const [openModal, setOpenModal] = useState(false);
-  const [tabName, setTabName] = useState<TabName>("share");
+  const [tabName, setTabName] = useState("");
+  const [changeFolderName, setChangeFolderName] = useState("");
 
   const router = useRouter();
   const { id } = router.query;
+  const queryClient = useQueryClient();
 
   const folderName = !id
     ? "전체"
     : data?.filter((item) => item.id === Number(id))[0]?.name!;
-
-  const handleModal = () => {
-    setOpenModal(true);
-  };
+  const { editFolderMutation, deleteFolderMutation } = useModalMutation();
 
   const handleTab = (e: React.MouseEvent<HTMLDivElement>) => {
     const altAttribute = (e.target as HTMLImageElement).alt as TabName;
     setTabName(altAttribute);
+  };
+
+  // 삭제
+  const handleDeleteFolder = (folderId: number) => {
+    deleteFolderMutation.mutate(folderId, {
+      onSuccess: () => {
+        router.push("/folder");
+      },
+    });
+  };
+
+  // 변경
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setChangeFolderName(e.target.value);
+  };
+  const handleEditFolder = () => {
+    editFolderMutation.mutate(
+      {
+        folderId: Number(id),
+        data: {
+          name: changeFolderName,
+        },
+      },
+      {
+        onSuccess: () => {
+          setTabName("");
+        },
+      }
+    );
   };
 
   return (
@@ -38,15 +67,14 @@ export default function FolderMenuBar({ data }: folderMenuBarProps) {
         <div
           onClick={(e) => {
             handleTab(e);
-            handleModal();
           }}
         >
           <Image src="/images/share.png" width={40} height={20} alt="share" />
         </div>
         <div
+          className={styles.tab_button}
           onClick={(e) => {
             handleTab(e);
-            handleModal();
           }}
         >
           <Image
@@ -57,19 +85,31 @@ export default function FolderMenuBar({ data }: folderMenuBarProps) {
           />
         </div>
         <div
+          className={styles.tab_button}
+          role="button"
           onClick={(e) => {
             handleTab(e);
-            handleModal();
           }}
         >
           <Image src="/images/delete.png" width={40} height={20} alt="delete" />
         </div>
       </div>
-      {openModal && (
-        <Modal
-          setterFunc={setOpenModal}
+      {/* 모달 나오는곳 */}
+      {tabName === "change" && (
+        <ChangeModal
           tabName={tabName}
+          setTabName={setTabName}
+          changeFolderName={changeFolderName}
+          handleChange={handleChange}
+          onClick={handleEditFolder}
+        />
+      )}
+      {tabName === "delete" && (
+        <DeleteModal
           folderName={folderName}
+          tabName={tabName}
+          setTabName={setTabName}
+          onClick={() => handleDeleteFolder(Number(id))}
         />
       )}
     </div>

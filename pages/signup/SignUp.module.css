@@ -33,6 +33,7 @@
   padding: 16px 20px;
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 .social__login {

@@ -33,6 +33,7 @@
   padding: 16px 20px;
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 .social__login {
@@ -44,7 +45,7 @@
   align-items: center;
   color: var(--black, #000);
   font-weight: 900;
-
+  font-size: 16px;
   padding: 0.5rem 1rem;
 }
 

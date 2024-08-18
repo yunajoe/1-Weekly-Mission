@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Button from "../button/Button";
-import styles from "./FolderMenuList.module.css";
 import Plus from "@/public/images/plus.svg";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import Button from "../button/Button";
 import Modal from "../modal/Modal";
+import styles from "./FolderMenuList.module.css";
 export interface FolderMenuListProps {
   folderMenuList: FolderMenuList[];
   folderId?: string;
@@ -54,10 +54,10 @@ export default function FolderMenuList({
         })}
       </div>
       <div className={styles.add__folder__button}>
-        <Button onClick={() => handleModal()}>
-          폴더추가
+        <Button onClick={handleModal}>폴더추가</Button>
+        <div className={styles.plus_icon}>
           <Plus />
-        </Button>
+        </div>
       </div>
       {openModal && <Modal setterFunc={setOpenModal} tabName="add" />}
     </div>

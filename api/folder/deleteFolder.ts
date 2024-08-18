@@ -1,5 +1,3 @@
-// https://bootcamp-api.codeit.kr/api/linkbrary/v1/folders/495
-
 import instance from "@/utils/interceptors";
 
 export const deleteFolder = async (folderId: number) => {

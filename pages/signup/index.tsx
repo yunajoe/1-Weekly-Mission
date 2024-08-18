@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import styles from "./SignUp.module.css";
-import Image from "next/image";
-import logo from "@/public/images/logo.png";
-import Link from "next/link";
-import Input from "@/components/input/Input";
-import { useForm, FormProvider } from "react-hook-form";
-import { useRouter } from "next/router";
-import { FormValues, PASSWORD, FORMVALUEOBJECT } from "@/types/hookFormTypes";
 import { SignUp } from "@/api/auth/signup";
-import { useMutation } from "@tanstack/react-query";
 import { CheckEmail } from "@/api/user/checkEmail";
+import Input from "@/components/input/Input";
+import logo from "@/public/images/logo.png";
+import { FORMVALUEOBJECT, FormValues, PASSWORD } from "@/types/hookFormTypes";
+import { useMutation } from "@tanstack/react-query";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import styles from "./SignUp.module.css";
 
 export default function SingUpPage() {
   const methods = useForm();
@@ -84,6 +84,7 @@ export default function SingUpPage() {
           const myAccessToken = data.accessToken;
           const myRefreshToken = data.refreshToken;
           localStorage.setItem("myAccessToken", myAccessToken);
+          localStorage.setItem("myRefreshToken", myRefreshToken);
 
           router.push("/folder");
         },

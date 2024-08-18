@@ -1,10 +1,9 @@
-import React from "react";
+import { InputProps } from "@/types/hookFormTypes";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ErrorMessage } from "@hookform/error-message";
 import { clsx } from "clsx";
 import styles from "./Input.module.css";
-import { ErrorMessage } from "@hookform/error-message";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { InputProps } from "@/types/hookFormTypes";
 
 export default function Input({
   type,
@@ -26,8 +25,7 @@ export default function Input({
         placeholder={placeholder}
         className={clsx({
           [styles.input]: true,
-          [styles.error]:
-            Object.keys(errors).length > 0 && Object.keys(errors)[0] === name,
+          [styles.error]: Object.keys(errors).includes(name),
         })}
         {...register(name, { ...props })}
       />
@@ -57,18 +55,12 @@ export default function Input({
         render={({ messages }) =>
           messages &&
           Object.entries(messages).map(([type, message]) => (
-            <p key={type}>{message}</p>
+            <p className={styles.error_message} key={type}>
+              {message}
+            </p>
           ))
         }
       />
-      {/* 
-      <div>
-        {props.watchRePassword &&
-          props.watchRePassword.length > 0 &&
-          props.watchPassword !== props.watchRePassword && (
-            <p className={styles.repassword__errors}>비밀번호가 맞지않습니다</p>
-          )}
-      </div> */}
     </div>
   );
 }

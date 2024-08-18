@@ -24,14 +24,6 @@
   justify-content: space-between;
   background-color: var(--white);
 
-  /* tablet */
-  @media (min-width: 768px) {
-  }
-
-  /* table2 */
-  @media (min-width: 1124px) {
-  }
-
   /* descktop*/
   @media (min-width: 1200px) {
     width: 80%;
@@ -58,7 +50,6 @@
 }
 .add__button {
   width: 100px;
-
   align-self: center;
   margin-right: 1rem;
   background: linear-gradient(91deg, #6d6afe 0.12%, #6ae3fe 101.84%);
@@ -67,16 +58,5 @@
   color: white;
   padding-top: 1rem;
   padding-bottom: 1rem;
-
-  /* tablet */
-  @media (min-width: 768px) {
-  }
-
-  /* table2 */
-  @media (min-width: 1124px) {
-  }
-
-  /* descktop*/
-  @media (min-width: 1200px) {
-  }
+  cursor: pointer;
 }

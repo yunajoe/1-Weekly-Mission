@@ -1,18 +1,17 @@
-import { useRouter } from "next/router";
-import React from "react";
 import DataList from "@/components/datalist/DataList";
-import SearchBar from "@/components/searchbar/SearchBar";
-import FolderNav from "@/components/nav/FolderNav";
-import Header from "@/components/header/Header";
 import FolderMenuList from "@/components/foldermenulist/FolderMenuList";
 import Footer from "@/components/footer/Footer";
+import Header from "@/components/header/Header";
+import FolderNav from "@/components/nav/FolderNav";
+import SearchBar from "@/components/searchbar/SearchBar";
 import FolderPageLayout from "@/layout/FolderPageLayout";
+import { useRouter } from "next/router";
 
-import FolderMenuBar from "@/components/menubar/FolderMenuBar";
-import { useQuery } from "@tanstack/react-query";
-import { getUser } from "@/api/user/getUser";
 import { getFolders } from "@/api/folder/getFolder";
 import { getFolderLinks } from "@/api/link/getFolderLinks";
+import { getUser } from "@/api/user/getUser";
+import FolderMenuBar from "@/components/menubar/FolderMenuBar";
+import { useQuery } from "@tanstack/react-query";
 
 export default function FolderItem() {
   const router = useRouter();
@@ -46,8 +45,6 @@ export default function FolderItem() {
     },
   });
 
-  if (AuthUserQuery.isLoading) return <p> Loading....</p>;
-
   if (AuthUserQuery.isError) return <p> Error...</p>;
 
   const user = AuthUserQuery.data || [];
@@ -56,7 +53,7 @@ export default function FolderItem() {
 
   return (
     <>
-      <FolderPageLayout>
+      <FolderPageLayout isLoading={AuthUserQuery.isLoading}>
         <FolderNav userProfile={user} />
         <Header />
         <SearchBar />

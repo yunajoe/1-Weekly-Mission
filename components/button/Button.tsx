@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 const BaseButton = styled.button`
   background: #fff;
-
+  cursor: pointer;
   border: none;
   border: 1px solid var(--primary);
   border-radius: 4px;
@@ -11,6 +11,8 @@ const BaseButton = styled.button`
   padding-right: 1rem;
   color: black;
   font-weight: bold;
+  width: 100%;
+
   &:hover {
     background-color: var(--primary);
     opacity: 0.7;

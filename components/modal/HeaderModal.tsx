@@ -1,21 +1,17 @@
+import { getFolders } from "@/api/folder/getFolder";
+import { postLink } from "@/api/link/postLinks";
+import Check from "@/public/images/check.svg";
+import { FolderMenu } from "@/types/headerModalTypes";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { SetStateAction, useRef, useState } from "react";
 import styles from "./HeaderModal.module.css";
-import Check from "@/public/images/check.svg";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getFolders } from "@/api/folder/getFolder";
-import { useMutation } from "@tanstack/react-query";
-import { postLink } from "@/api/link/postLinks";
-import { FolderMenu } from "@/types/headerModalTypes";
-import useOutsideClick from "@/hooks/useOutsideClick";
 
 type HeaderModalProps = {
-  // openModal: any;
   setOpenModal: React.Dispatch<SetStateAction<boolean>>;
   inputLink: string;
 };
 
 export default function HeaderModal({
-  // openModal,
   setOpenModal,
   inputLink,
 }: HeaderModalProps) {
@@ -37,12 +33,6 @@ export default function HeaderModal({
 
   const modalRef = useRef(null);
 
-  // useOutsideClick({
-  //   ref: modalRef,
-  //   callback: () => setOpenModal(false),
-  // });
-
-  // console.log("status ", openModal);
   const createLinkMutation = useMutation({
     mutationKey: ["postLink"],
     mutationFn: (data: postLink) => postLink(data),
@@ -51,7 +41,7 @@ export default function HeaderModal({
     },
   });
 
-  if (isLoading) return <p>Loadig..</p>;
+  if (isLoading) return <p className={styles.loading}>Loadig..</p>;
 
   if (isError) return <p>Error...</p>;
 

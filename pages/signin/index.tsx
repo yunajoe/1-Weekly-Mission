@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import styles from "./SignIn.module.css";
-import Image from "next/image";
-import logo from "@/public/images/logo.png";
-import Link from "next/link";
 import Input from "@/components/input/Input";
+import logo from "@/public/images/logo.png";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import styles from "./SignIn.module.css";
 
-import { useRouter } from "next/router";
-import { FormValues } from "@/types/hookFormTypes";
 import { SignIn } from "@/api/auth/signin";
+import { FormValues } from "@/types/hookFormTypes";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 export default function SingInPage() {
   const {
     register,
@@ -57,6 +57,7 @@ export default function SingInPage() {
           const myRefreshToken = data.refreshToken;
           if (myAccessToken) {
             localStorage.setItem("myAccessToken", myAccessToken);
+            localStorage.setItem("myRefreshToken", myRefreshToken);
             router.push("/folder");
           }
         },
