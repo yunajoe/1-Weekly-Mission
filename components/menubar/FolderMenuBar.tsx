@@ -58,7 +58,7 @@ export default function FolderMenuBar({ data }: folderMenuBarProps) {
         onSuccess: () => {
           setTabName("");
           setChangeFolderName("");
-          AuthUserQuery.refetch();
+          router.push("/folder");            
         },
       }
     );
