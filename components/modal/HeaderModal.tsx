@@ -1,8 +1,7 @@
 import { getFolders } from "@/api/folder/getFolder";
-import { postLink } from "@/api/link/postLinks";
 import Check from "@/public/images/check.svg";
 import { FolderMenu } from "@/types/headerModalTypes";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { SetStateAction, useRef, useState } from "react";
 import styles from "./HeaderModal.module.css";
 
@@ -33,13 +32,13 @@ export default function HeaderModal({
 
   const modalRef = useRef(null);
 
-  const createLinkMutation = useMutation({
-    mutationKey: ["postLink"],
-    mutationFn: (data: postLink) => postLink(data),
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["authFolderList"] });
-    },
-  });
+  // const createLinkMutation = useMutation({
+  //   mutationKey: ["postLink"],
+  //   mutationFn: (data: postLink) => postLink(data),
+  //   onSettled: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["authFolderList"] });
+  //   },
+  // });
 
   if (isLoading) return <p className={styles.loading}>Loadig..</p>;
 
@@ -49,34 +48,34 @@ export default function HeaderModal({
     (ele: FolderMenu) => ele.name === clickedFolderName
   );
 
-  const handleCreateLink = () => {
-    {
-      createLinkMutation.mutate(
-        {
-          data: {
-            url: inputLink,
-            folderId: selectedItem.id,
-          },
-        },
-        {
-          onSuccess: () => {
-            setOpenModal(false);
-          },
-        }
-      );
-    }
-  };
+  // const handleCreateLink = () => {
+  //   {
+  //     createLinkMutation.mutate(
+  //       {
+  //         data: {
+  //           url: inputLink,
+  //           folderId: selectedItem.id,
+  //         },
+  //       },
+  //       {
+  //         onSuccess: () => {
+  //           setOpenModal(false);
+  //         },
+  //       }
+  //     );
+  //   }
+  // };
   return (
     <div className={styles.container}>
       <div className={styles.modal__container} ref={modalRef}>
-        <button
+        {/* <button
           className={styles.cancel__button}
           onClick={() => setOpenModal(false)}
         >
           X
-        </button>
-        <p className={styles.title}>폴더에추가</p>
-        <p>{inputLink}</p>
+        </button> */}
+        {/* <p className={styles.title}>폴더에추가</p> */}
+
         {folderMenuList.map((item: FolderMenu) => {
           const { id, name, link_count } = item;
           return (
@@ -101,7 +100,7 @@ export default function HeaderModal({
             </li>
           );
         })}
-        <button className={styles.button} onClick={() => handleCreateLink()}>
+        <button className={styles.button} >
           추가하기
         </button>
       </div>

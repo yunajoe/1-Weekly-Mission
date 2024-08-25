@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var deleteFolder_1 = require("@/api/folder/deleteFolder");
 var putFolder_1 = require("@/api/folder/putFolder");
+var postLinks_1 = require("@/api/link/postLinks");
 var react_query_1 = require("@tanstack/react-query");
 var router_1 = require("next/router");
 var postFolder_1 = require("./../api/folder/postFolder");
@@ -79,15 +80,6 @@ function useModalMutation() {
                     case 1:
                         _a.sent();
                         previousData = queryClient.getQueryData(["authFolderList"]);
-                        // const updatedFolders = data.map((item: any) => {
-                        //   if (item.id === newFolderData.folderId) {
-                        //     return {
-                        //       ...item,
-                        //       name: newFolderData.data.name,
-                        //     };
-                        //   }
-                        //   return item;
-                        // });
                         return [2 /*return*/, { previousData: previousData }];
                 }
             });
@@ -102,6 +94,13 @@ function useModalMutation() {
             console.log("err", err);
         }
     });
+    var createLinkMutation = react_query_1.useMutation({
+        mutationKey: ["postLink"],
+        mutationFn: function (data) { return postLinks_1.postLink(data); },
+        onSettled: function () {
+            queryClient.invalidateQueries({ queryKey: ["authFolderList"] });
+        }
+    });
     // const deleteLinkMutation = useMutation({
     //   mutationKey: ["deleteLink"],
     //   mutationFn: (linkId: number) => deleteLink(linkId),
@@ -112,7 +111,8 @@ function useModalMutation() {
     return {
         createFolderMutation: createFolderMutation,
         editFolderMutation: editFolderMutation,
-        deleteFolderMutation: deleteFolderMutation
+        deleteFolderMutation: deleteFolderMutation,
+        createLinkMutation: createLinkMutation
     };
 }
 exports["default"] = useModalMutation;

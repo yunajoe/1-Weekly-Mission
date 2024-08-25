@@ -21,7 +21,6 @@ const ModalContainer = styled.div`
   align-items: center;
   row-gap: 1.5rem;
   width: 380px;
-  height: 200px;
   padding: 2rem;
   border-radius: 10px;
 `;

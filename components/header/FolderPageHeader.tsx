@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef } from "react";
-import styles from "./FolderPageHeader.module.css";
-import LinkImage from "@/public/images/link.svg";
-import { useState } from "react";
-import HeaderModal from "../modal/HeaderModal";
-import useObserver from "@/hooks/useObserver";
+import LinkModal from "@/components/modal/LinkModal";
 import FooterContext from "@/contexts/FooterContext";
 import HeaderContext from "@/contexts/HeaderContext";
+import useCustomQuery from "@/hooks/useCustomQuery";
+import useObserver from "@/hooks/useObserver";
+import LinkImage from "@/public/images/link.svg";
+import React, { useContext, useEffect, useState } from "react";
+import styles from "./FolderPageHeader.module.css";
 
 export interface folderMenuList {
   id: number;
@@ -16,14 +16,19 @@ export interface folderMenuList {
 }
 
 export default function FolderPageHeader() {
-  const [openModal, setOpenModal] = useState(false);
-  const [inputText, setInputText] = useState("");
+  const [linkOpenModal, setLinkOpenModal] = useState(false);
+  const [inputLink, setInputLink] = useState("");
+
+  const { AuthUserQuery, AuthGetLink, wholeLinkList, AuthFolderQuery } =
+    useCustomQuery();
+
+  console.log("ㅎㅎㅎㅎㅎ", AuthFolderQuery.data);
   const handleOpenModal = () => {
-    setOpenModal(true);
+    setLinkOpenModal(true);
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputText(e.target.value);
+    setInputLink(e.target.value);
   };
   const { ref, isVisible } = useObserver();
   const { isHeaderVisible, setIsHeaderVisible } = useContext(HeaderContext);
@@ -48,11 +53,11 @@ export default function FolderPageHeader() {
           <button className={styles.add__button} onClick={handleOpenModal}>
             추가하기
           </button>
-          {openModal && (
-            <HeaderModal
-              // openModal={openModal}
-              setOpenModal={setOpenModal}
-              inputLink={inputText}
+          {linkOpenModal && (
+            <LinkModal
+              data={AuthFolderQuery.data}
+              inputLink={inputLink}
+              setLinkOpenModal={setLinkOpenModal}
             />
           )}
         </div>
@@ -78,11 +83,11 @@ export default function FolderPageHeader() {
           <button className={styles.add__button} onClick={handleOpenModal}>
             추가하기
           </button>
-          {openModal && (
-            <HeaderModal
-              // openModal={openModal}
-              setOpenModal={setOpenModal}
-              inputLink={inputText}
+          {linkOpenModal && (
+            <LinkModal
+              data={AuthFolderQuery.data}
+              inputLink={inputLink}
+              setLinkOpenModal={setLinkOpenModal}
             />
           )}
         </div>

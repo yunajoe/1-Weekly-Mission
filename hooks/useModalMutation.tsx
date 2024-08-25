@@ -1,5 +1,6 @@
 import { deleteFolder } from "@/api/folder/deleteFolder";
 import { putFolder } from "@/api/folder/putFolder";
+import { postLink } from "@/api/link/postLinks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { postFolder } from "./../api/folder/postFolder";
@@ -39,16 +40,6 @@ function useModalMutation() {
 
       const previousData = queryClient.getQueryData(["authFolderList"]);
 
-      // const updatedFolders = data.map((item: any) => {
-      //   if (item.id === newFolderData.folderId) {
-      //     return {
-      //       ...item,
-      //       name: newFolderData.data.name,
-      //     };
-      //   }
-      //   return item;
-      // });
-
       return { previousData };
     },
     onSettled: () => {
@@ -59,6 +50,13 @@ function useModalMutation() {
     },
     onError: (err, data, context) => {
       console.log("err", err);
+    },
+  });
+  const createLinkMutation = useMutation({
+    mutationKey: ["postLink"],
+    mutationFn: (data: postLink) => postLink(data),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["authFolderList"] });
     },
   });
 
@@ -74,6 +72,7 @@ function useModalMutation() {
     createFolderMutation,
     editFolderMutation,
     deleteFolderMutation,
+    createLinkMutation,
   };
 }
 
